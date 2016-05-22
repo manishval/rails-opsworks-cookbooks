@@ -1,3 +1,5 @@
+Chef::Log.debug("opsworks_clockwork started")
+
 action :create do
   name       = new_resource.name
   user       = new_resource.user
