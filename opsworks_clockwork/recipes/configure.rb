@@ -4,8 +4,8 @@ include_recipe "deploy"
 include_recipe "opsworks_clockwork::service"
 
 node[:deploy].each do |application, deploy|
-  execute "restart-clockwork-service" do
-    command "monit -Iv restart clockwork_#{application}_group"
+  execute "restart-clockwork-service-#{application}" do
+    command "sudo monit restart -g clockwork_#{application}_group"
   end
 
   node.default[:deploy][application][:database][:adapter] = OpsWorks::RailsConfiguration.determine_database_adapter(application, node[:deploy][application], "#{node[:deploy][application][:deploy_to]}/current", force: node[:force_database_adapter_detection])
@@ -22,7 +22,7 @@ node[:deploy].each do |application, deploy|
       environment: deploy[:rails_env]
     )
 
-    notifies :run, "execute[restart-clockwork-service]", :immediately
+    notifies :run, "execute[restart-clockwork-service-#{application}]"
 
     only_if do
       deploy[:database][:host].present? && File.directory?("#{deploy[:deploy_to]}/shared/config/")
@@ -40,7 +40,7 @@ node[:deploy].each do |application, deploy|
       environment: deploy[:rails_env]
     )
 
-    notifies :run, "execute[restart-clockwork-service]", :immediately
+    notifies :run, "execute[restart-rails-app-#{application}]"
 
     only_if do
       deploy[:memcached][:host].present? && File.directory?("#{deploy[:deploy_to]}/shared/config/")

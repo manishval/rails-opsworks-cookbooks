@@ -30,7 +30,7 @@ node[:deploy].each do |application, deploy|
 
   Chef::Log.debug("Restarting Clockwork Application: #{application}")
   # Restart clockwork if it's already running
-  execute "restart-clockwork-service" do
-    command "monit -Iv restart clockwork_#{application}_group"
+  execute "restart-clockwork-service-#{application}" do
+    command "sudo monit restart -g clockwork_#{application}_group"
   end
 end

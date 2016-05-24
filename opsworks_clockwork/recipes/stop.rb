@@ -3,7 +3,7 @@
 include_recipe "opsworks_clockwork::service"
 
 node[:deploy].each do |application, deploy|
-  execute "stop-clockwork-service" do
+  execute "stop-clockwork-service-#{application}" do
     command "sudo monit stop -g clockwork_#{application}_group"
   end
 end
