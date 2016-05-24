@@ -4,4 +4,4 @@ export RAILS_ENV="<%= @deploy['rails_env'] %>"
 export RACK_ENV="<%= @deploy['rails_env'] %>"
 export PATH=/usr/local/bin:/usr/local/sbin:/opt/aws/bin:$PATH
 
-su <%= @deploy['user'] %> -s /bin/bash -c 'cd <%= @deploy[:current_path] %> && /usr/local/bin/bundle exec clockworkd --pid-dir=<%= @pid_dir %> --log --log-dir=<%= @log_dir %> --clock=<%= @clock %> start'
+su <%= @deploy['user'] %> -s /bin/bash -c 'cd <%= @deploy[:current_path] %> && /usr/local/bin/bundle exec clockworkd --pid-dir=<%= @pid_dir %> --log --log-dir=<%= @log_dir %> --dir=<%= @deploy[:current_path] %> --clock=<%= @clock %> start'
