@@ -1,5 +1,5 @@
-check process clockwork_<%= @name %>
+check process clockwork_<%= @application %>
   with pidfile "<%= @pid_file %>"
-  start program = "/usr/local/bin/start_clockwork_<%= @name %>.sh" with timeout 30 seconds
-  stop program = "/usr/local/bin/stop_clockwork_<%= @name %>.sh" with timeout 30 seconds
-  group <%= @name %>
+  start program = "/usr/local/bin/start_clockwork_<%= @application %>.sh" with timeout 30 seconds
+  stop program = "/usr/local/bin/stop_clockwork_<%= @application %>.sh" with timeout 30 seconds
+  group clockwork_<%= @application %>_group
