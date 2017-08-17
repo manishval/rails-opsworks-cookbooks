@@ -2,7 +2,7 @@ define :puma_config, :owner => 'deploy', :group => 'nginx', :directory  => nil, 
                      :environment => "production", :daemonize => true, :pidfile => nil, :config_path => nil, :state_path => nil,
                      :stdout_redirect => nil, :stderr_redirect => nil, :output_append => true,
                      :quiet => false, :thread_min => 0, :thread_max => 16, :bind => nil, :control_app_bind => nil,
-                     :workers => 0, :activate_control_app => true, :logrotate => true, :exec_prefix => nil,
+                     :workers => 0, :activate_control_app => true, :exec_prefix => nil,
                      :config_source => nil, :config_cookbook => nil, :worker_timeout => nil,
                      :preload_app => false, :prune_bundler => true, :on_worker_boot => nil do
 
@@ -96,17 +96,5 @@ define :puma_config, :owner => 'deploy', :group => 'nginx', :directory  => nil, 
     group params[:group] if params[:group]
     variables params
     notifies :start, "service[#{params[:name]}]", :delayed
-  end
-
-  if params[:logrotate]
-    logrotate_app params[:name] do
-      cookbook "logrotate"
-      path [ params[:stdout_redirect], params[:stderr_redirect] ]
-      frequency "daily"
-      rotate 30
-      size "5M"
-      options ["missingok", "compress", "delaycompress", "notifempty", "dateext"]
-      variables params
-    end
   end
 end
